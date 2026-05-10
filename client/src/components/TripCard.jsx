@@ -1,17 +1,16 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { moment } from '../i18n'
 
 const STATUS_BADGE = {
-  planning: { label: 'Planning', cls: 'bg-warning-subtle text-warning-emphasis' },
-  confirmed: { label: 'Confirmed', cls: 'bg-success-subtle text-success-emphasis' },
-  completed: { label: 'Completed', cls: 'bg-secondary-subtle text-secondary-emphasis' }
-}
-
-function formatDate(iso) {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  planning: { key: 'tripCard.status.planning', cls: 'bg-warning-subtle text-warning-emphasis' },
+  confirmed: { key: 'tripCard.status.confirmed', cls: 'bg-success-subtle text-success-emphasis' },
+  completed: { key: 'tripCard.status.completed', cls: 'bg-secondary-subtle text-secondary-emphasis' }
 }
 
 export default function TripCard({ trip }) {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const badge = STATUS_BADGE[trip.status] ?? STATUS_BADGE.planning
 
   return (
@@ -28,11 +27,11 @@ export default function TripCard({ trip }) {
           <div className="flex-grow-1 min-w-0">
             <div className="d-flex align-items-center justify-content-between gap-2 mb-1">
               <h6 className="card-title mb-0 fw-bold text-truncate">{trip.name}</h6>
-              <span className={`badge rounded-pill ${badge.cls} flex-shrink-0`}>{badge.label}</span>
+              <span className={`badge rounded-pill ${badge.cls} flex-shrink-0`}>{t(badge.key)}</span>
             </div>
             <p className="text-muted small mb-2 text-truncate">📍 {trip.destination}</p>
             <div className="d-flex align-items-center gap-3 text-muted small">
-              <span>📅 {formatDate(trip.startDate)}</span>
+              <span>📅 {moment(trip.startDate).format('D MMM YYYY')}</span>
               <span>👥 {trip.memberCount}</span>
             </div>
           </div>

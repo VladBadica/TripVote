@@ -1,0 +1,183 @@
+{
+  "nav": {
+    "myTrips": "My trips",
+    "logIn": "Log in",
+    "signUpFree": "Sign up free",
+    "signOut": "Sign out",
+    "trips": "Trips",
+    "overview": "Overview",
+    "votes": "Votes",
+    "checklist": "Checklist",
+    "activity": "Activity"
+  },
+  "auth": {
+    "tagline": "Plan trips together, vote on everything.",
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Log in to your account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "submitting": "Logging in…",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "fillAllFields": "Please fill in all fields."
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Start planning trips with your crew",
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "passwordPlaceholder": "Min. 6 characters",
+      "confirmPassword": "Confirm password",
+      "submit": "Create account",
+      "submitting": "Creating account…",
+      "haveAccount": "Already have an account?",
+      "logIn": "Log in",
+      "validation": {
+        "fullNameRequired": "Full name is required.",
+        "emailRequired": "Email is required.",
+        "passwordMin": "Password must be at least 6 characters.",
+        "passwordMismatch": "Passwords don't match."
+      }
+    }
+  },
+  "landing": {
+    "heroTitle": "Group trips made",
+    "heroHighlight": "ridiculously easy",
+    "heroSubtitle": "Stop the endless group chat debates. TripVote lets your crew vote on destinations, activities, and transport — then tracks everything in one place.",
+    "startPlanningFree": "Start planning free",
+    "noCreditCard": "No credit card required",
+    "features": {
+      "voteTogether_title": "Vote together",
+      "voteTogether_desc": "Create polls for destinations, activities, and transport. Everyone has a say.",
+      "sharedChecklist_title": "Shared checklist",
+      "sharedChecklist_desc": "Assign tasks, set deadlines, and track what's done as a team.",
+      "liveActivity_title": "Live activity feed",
+      "liveActivity_desc": "Stay in the loop with a real-time timeline of every group decision.",
+      "easyInvite_title": "Easy invite",
+      "easyInvite_desc": "Share a link — friends join instantly, no signup friction."
+    },
+    "copyright": "© {{year}} TripVote"
+  },
+  "dashboard": {
+    "greeting": "Hey, {{name}} 👋",
+    "subtitle": "Your upcoming adventures",
+    "newTrip": "+ New trip",
+    "empty": {
+      "title": "No trips yet",
+      "subtitle": "Create your first trip or join one with an invite code.",
+      "cta": "Create a trip"
+    },
+    "joinTrip": "🔗 Join a trip",
+    "inviteCodePlaceholder": "Enter invite code",
+    "join": "Join",
+    "joiningAlert": "Joining trip with code: {{code}}"
+  },
+  "tripDetail": {
+    "notFound": "Trip not found.",
+    "backToDashboard": "Back to dashboard",
+    "back": "← Back",
+    "inviteFriends": "Invite friends",
+    "inviteCodeLabel": "Code:",
+    "copyCode": "Copy code",
+    "inviteCopied": "Invite code copied: {{code}}",
+    "stats": {
+      "polls": "Polls",
+      "tasksDone": "Tasks done",
+      "members": "Members"
+    },
+    "membersSection": "Members",
+    "quickLinks": {
+      "viewPolls": "🗳️ View polls & votes",
+      "openChecklist": "✅ Open checklist",
+      "activityTimeline": "⚡ Activity timeline"
+    }
+  },
+  "tripCard": {
+    "status": {
+      "planning": "Planning",
+      "confirmed": "Confirmed",
+      "completed": "Completed"
+    }
+  },
+  "voting": {
+    "title": "🗳️ Polls",
+    "newPoll": "+ New poll",
+    "empty": {
+      "title": "No polls yet",
+      "subtitle": "Create the first poll to start deciding together.",
+      "cta": "Create poll"
+    },
+    "activeSection": "Active",
+    "closedSection": "Closed",
+    "modal": {
+      "title": "New poll 🗳️",
+      "typeLabel": "Type",
+      "questionLabel": "Question",
+      "questionPlaceholder": "Where should we stay?",
+      "optionsLabel": "Options",
+      "optionPlaceholder": "Option {{number}}",
+      "addOption": "+ Add option",
+      "submit": "Create poll"
+    },
+    "pollTypes": {
+      "destination": "Destination",
+      "transport": "Transport",
+      "activity": "Activity",
+      "general": "General"
+    }
+  },
+  "pollCard": {
+    "closed": "Closed",
+    "vote_one": "{{count}} vote",
+    "vote_other": "{{count}} votes",
+    "totalVotes_one": "{{count}} total vote",
+    "totalVotes_other": "{{count}} total votes",
+    "by": "By"
+  },
+  "checklist": {
+    "title": "✅ Checklist",
+    "badge": "{{done}}/{{total}} done",
+    "progress": "{{pct}}% complete",
+    "placeholder": "Add a task…",
+    "add": "Add",
+    "empty": {
+      "title": "Nothing here yet",
+      "subtitle": "Add tasks to coordinate what needs to get done."
+    },
+    "todoSection": "To do",
+    "completedSection": "Completed"
+  },
+  "checklistItem": {
+    "markIncomplete": "Mark incomplete",
+    "markComplete": "Mark complete",
+    "deleteItem": "Delete item"
+  },
+  "timeline": {
+    "title": "⚡ Activity",
+    "empty": {
+      "title": "No activity yet",
+      "subtitle": "Actions like creating polls and completing tasks will show up here."
+    }
+  },
+  "createTrip": {
+    "title": "New Trip ✈️",
+    "pickIcon": "Pick an icon",
+    "tripName": "Trip name",
+    "tripNamePlaceholder": "Greek Islands Summer",
+    "destination": "Destination",
+    "destinationPlaceholder": "Santorini, Greece",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "submit": "Create trip",
+    "submitting": "Creating…",
+    "validation": {
+      "nameRequired": "Trip name is required.",
+      "destinationRequired": "Destination is required.",
+      "startDateRequired": "Start date is required.",
+      "endDateInvalid": "End date must be after start date."
+    }
+  }
+}

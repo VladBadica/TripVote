@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { AuthProvider } from './context/AuthContext'
 import { TripProvider } from './context/TripContext'
+import './i18n'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/custom.css'
 

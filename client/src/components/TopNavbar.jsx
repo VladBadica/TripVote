@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, Container, Dropdown } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 
 export default function TopNavbar() {
   const { user, logout } = useAuth()
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   async function handleLogout() {
@@ -30,7 +32,7 @@ export default function TopNavbar() {
             <Dropdown.Header className="fw-semibold">{displayName}</Dropdown.Header>
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleLogout} className="text-danger">
-              Sign out
+              {t('nav.signOut')}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

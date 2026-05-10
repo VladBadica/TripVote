@@ -1,0 +1,185 @@
+{
+  "nav": {
+    "myTrips": "Călătoriile mele",
+    "logIn": "Autentificare",
+    "signUpFree": "Înregistrare gratuită",
+    "signOut": "Deconectare",
+    "trips": "Călătorii",
+    "overview": "Prezentare",
+    "votes": "Voturi",
+    "checklist": "Listă",
+    "activity": "Activitate"
+  },
+  "auth": {
+    "tagline": "Planificați călătorii împreună, votați pentru orice.",
+    "login": {
+      "title": "Bine ai revenit",
+      "subtitle": "Autentifică-te în contul tău",
+      "email": "Email",
+      "password": "Parolă",
+      "submit": "Autentificare",
+      "submitting": "Se autentifică...",
+      "noAccount": "Nu ai un cont?",
+      "signUp": "Înregistrează-te",
+      "fillAllFields": "Completează toate câmpurile."
+    },
+    "register": {
+      "title": "Creează cont",
+      "subtitle": "Începe să planifici călătorii cu echipa ta",
+      "fullName": "Nume complet",
+      "email": "Email",
+      "password": "Parolă",
+      "passwordPlaceholder": "Min. 6 caractere",
+      "confirmPassword": "Confirmă parola",
+      "submit": "Creează cont",
+      "submitting": "Se creează contul...",
+      "haveAccount": "Ai deja un cont?",
+      "logIn": "Autentificare",
+      "validation": {
+        "fullNameRequired": "Numele complet este obligatoriu.",
+        "emailRequired": "Emailul este obligatoriu.",
+        "passwordMin": "Parola trebuie să aibă cel puțin 6 caractere.",
+        "passwordMismatch": "Parolele nu se potrivesc."
+      }
+    }
+  },
+  "landing": {
+    "heroTitle": "Călătorii de grup",
+    "heroHighlight": "incredibil de ușoare",
+    "heroSubtitle": "Termină cu dezbaterile nesfârșite în chat. TripVote lasă echipa ta să voteze destinații, activități și transport — și urmărește totul într-un singur loc.",
+    "startPlanningFree": "Începe să planifici gratuit",
+    "noCreditCard": "Nu este necesar un card de credit",
+    "features": {
+      "voteTogether_title": "Votați împreună",
+      "voteTogether_desc": "Creați sondaje pentru destinații, activități și transport. Toți au un cuvânt de spus.",
+      "sharedChecklist_title": "Listă de verificare partajată",
+      "sharedChecklist_desc": "Atribuiți sarcini, setați termene și urmăriți ce s-a făcut ca echipă.",
+      "liveActivity_title": "Flux de activitate live",
+      "liveActivity_desc": "Rămâi la curent cu o cronologie în timp real a fiecărei decizii de grup.",
+      "easyInvite_title": "Invitație ușoară",
+      "easyInvite_desc": "Partajați un link — prietenii se alătură instant, fără fricțiuni la înregistrare."
+    },
+    "copyright": "© {{year}} TripVote"
+  },
+  "dashboard": {
+    "greeting": "Salut, {{name}} 👋",
+    "subtitle": "Aventurile tale viitoare",
+    "newTrip": "+ Excursie nouă",
+    "empty": {
+      "title": "Nicio excursie încă",
+      "subtitle": "Creează prima ta excursie sau alătură-te uneia cu un cod de invitație.",
+      "cta": "Creează o excursie"
+    },
+    "joinTrip": "🔗 Alătură-te unei excursii",
+    "inviteCodePlaceholder": "Introdu codul de invitație",
+    "join": "Alătură-te",
+    "joiningAlert": "Te alăturezi excursiei cu codul: {{code}}"
+  },
+  "tripDetail": {
+    "notFound": "Excursia nu a fost găsită.",
+    "backToDashboard": "Înapoi la panou",
+    "back": "← Înapoi",
+    "inviteFriends": "Invită prieteni",
+    "inviteCodeLabel": "Cod:",
+    "copyCode": "Copiați codul",
+    "inviteCopied": "Cod de invitație copiat: {{code}}",
+    "stats": {
+      "polls": "Sondaje",
+      "tasksDone": "Sarcini finalizate",
+      "members": "Membri"
+    },
+    "membersSection": "Membri",
+    "quickLinks": {
+      "viewPolls": "🗳️ Sondaje și voturi",
+      "openChecklist": "✅ Listă de verificare",
+      "activityTimeline": "⚡ Cronologia activității"
+    }
+  },
+  "tripCard": {
+    "status": {
+      "planning": "Planificare",
+      "confirmed": "Confirmat",
+      "completed": "Finalizat"
+    }
+  },
+  "voting": {
+    "title": "🗳️ Sondaje",
+    "newPoll": "+ Sondaj nou",
+    "empty": {
+      "title": "Niciun sondaj încă",
+      "subtitle": "Creează primul sondaj pentru a începe să decizi împreună.",
+      "cta": "Creează sondaj"
+    },
+    "activeSection": "Activ",
+    "closedSection": "Închis",
+    "modal": {
+      "title": "Sondaj nou 🗳️",
+      "typeLabel": "Tip",
+      "questionLabel": "Întrebare",
+      "questionPlaceholder": "Unde ar trebui să stăm?",
+      "optionsLabel": "Opțiuni",
+      "optionPlaceholder": "Opțiunea {{number}}",
+      "addOption": "+ Adaugă opțiune",
+      "submit": "Creează sondaj"
+    },
+    "pollTypes": {
+      "destination": "Destinație",
+      "transport": "Transport",
+      "activity": "Activitate",
+      "general": "General"
+    }
+  },
+  "pollCard": {
+    "closed": "Închis",
+    "vote_one": "{{count}} vot",
+    "vote_few": "{{count}} voturi",
+    "vote_other": "{{count}} voturi",
+    "totalVotes_one": "{{count}} vot total",
+    "totalVotes_few": "{{count}} voturi totale",
+    "totalVotes_other": "{{count}} voturi totale",
+    "by": "De"
+  },
+  "checklist": {
+    "title": "✅ Listă de verificare",
+    "badge": "{{done}}/{{total}} finalizate",
+    "progress": "{{pct}}% complet",
+    "placeholder": "Adaugă o sarcină...",
+    "add": "Adaugă",
+    "empty": {
+      "title": "Nimic aici încă",
+      "subtitle": "Adaugă sarcini pentru a coordona ce trebuie făcut."
+    },
+    "todoSection": "De făcut",
+    "completedSection": "Finalizate"
+  },
+  "checklistItem": {
+    "markIncomplete": "Marchează ca nefinalizat",
+    "markComplete": "Marchează ca finalizat",
+    "deleteItem": "Șterge elementul"
+  },
+  "timeline": {
+    "title": "⚡ Activitate",
+    "empty": {
+      "title": "Nicio activitate încă",
+      "subtitle": "Acțiunile precum crearea sondajelor și finalizarea sarcinilor vor apărea aici."
+    }
+  },
+  "createTrip": {
+    "title": "Excursie nouă ✈️",
+    "pickIcon": "Alege o pictogramă",
+    "tripName": "Numele excursiei",
+    "tripNamePlaceholder": "Insulele Grecești Vară",
+    "destination": "Destinație",
+    "destinationPlaceholder": "Santorini, Grecia",
+    "startDate": "Data de început",
+    "endDate": "Data de sfârșit",
+    "submit": "Creează excursia",
+    "submitting": "Se creează...",
+    "validation": {
+      "nameRequired": "Numele excursiei este obligatoriu.",
+      "destinationRequired": "Destinația este obligatorie.",
+      "startDateRequired": "Data de început este obligatorie.",
+      "endDateInvalid": "Data de sfârșit trebuie să fie după data de început."
+    }
+  }
+}

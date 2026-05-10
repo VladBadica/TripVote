@@ -1,3 +1,5 @@
+import { moment } from '../i18n'
+
 const TYPE_ICON = {
   trip_created: '🎉',
   member_joined: '👋',
@@ -5,17 +7,6 @@ const TYPE_ICON = {
   poll_voted: '✔️',
   checklist_done: '✅',
   checklist_added: '➕'
-}
-
-function timeAgo(iso) {
-  const diff = Date.now() - new Date(iso).getTime()
-  const minutes = Math.floor(diff / 60000)
-  if (minutes < 1) return 'just now'
-  if (minutes < 60) return `${minutes}m ago`
-  const hours = Math.floor(minutes / 60)
-  if (hours < 24) return `${hours}h ago`
-  const days = Math.floor(hours / 24)
-  return `${days}d ago`
 }
 
 export default function ActivityItem({ activity }) {
@@ -29,7 +20,9 @@ export default function ActivityItem({ activity }) {
           <span className="fw-semibold">{activity.actor}</span>{' '}
           {activity.message}
         </p>
-        <span className="text-muted" style={{ fontSize: '0.75rem' }}>{timeAgo(activity.timestamp)}</span>
+        <span className="text-muted" style={{ fontSize: '0.75rem' }}>
+          {moment(activity.timestamp).fromNow()}
+        </span>
       </div>
     </div>
   )

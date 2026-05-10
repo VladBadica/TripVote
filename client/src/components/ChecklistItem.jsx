@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { useTrips } from '../context/TripContext'
 
 export default function ChecklistItem({ item }) {
   const { user } = useAuth()
   const { toggleChecklistItem, deleteChecklistItem } = useTrips()
+  const { t } = useTranslation()
 
   const displayName = user?.user_metadata?.full_name ?? 'You'
 
@@ -12,7 +14,7 @@ export default function ChecklistItem({ item }) {
       <button
         className={`check-btn flex-shrink-0 ${item.done ? 'checked' : ''}`}
         onClick={() => toggleChecklistItem(item.id, displayName)}
-        aria-label={item.done ? 'Mark incomplete' : 'Mark complete'}
+        aria-label={item.done ? t('checklistItem.markIncomplete') : t('checklistItem.markComplete')}
       >
         {item.done ? '✓' : ''}
       </button>
@@ -32,7 +34,7 @@ export default function ChecklistItem({ item }) {
       <button
         className="btn btn-link text-muted p-0 flex-shrink-0 delete-btn"
         onClick={() => deleteChecklistItem(item.id)}
-        aria-label="Delete item"
+        aria-label={t('checklistItem.deleteItem')}
       >
         ×
       </button>

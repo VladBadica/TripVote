@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 
-const FEATURES = [
-  { icon: '🗳️', title: 'Vote together', desc: 'Create polls for destinations, activities, and transport. Everyone has a say.' },
-  { icon: '✅', title: 'Shared checklist', desc: 'Assign tasks, set deadlines, and track what\'s done as a team.' },
-  { icon: '⚡', title: 'Live activity feed', desc: 'Stay in the loop with a real-time timeline of every group decision.' },
-  { icon: '🔗', title: 'Easy invite', desc: 'Share a link — friends join instantly, no signup friction.' }
+const FEATURE_KEYS = [
+  { icon: '🗳️', titleKey: 'landing.features.voteTogether_title', descKey: 'landing.features.voteTogether_desc' },
+  { icon: '✅', titleKey: 'landing.features.sharedChecklist_title', descKey: 'landing.features.sharedChecklist_desc' },
+  { icon: '⚡', titleKey: 'landing.features.liveActivity_title', descKey: 'landing.features.liveActivity_desc' },
+  { icon: '🔗', titleKey: 'landing.features.easyInvite_title', descKey: 'landing.features.easyInvite_desc' }
 ]
 
 export default function LandingPage() {
   const { user } = useAuth()
+  const { t } = useTranslation()
 
   return (
     <div className="landing-page">
@@ -19,11 +21,11 @@ export default function LandingPage() {
         </span>
         <div className="d-flex gap-2">
           {user ? (
-            <Link to="/dashboard" className="btn btn-primary-custom btn-sm">My trips</Link>
+            <Link to="/dashboard" className="btn btn-primary-custom btn-sm">{t('nav.myTrips')}</Link>
           ) : (
             <>
-              <Link to="/login" className="btn btn-outline-secondary btn-sm">Log in</Link>
-              <Link to="/register" className="btn btn-primary-custom btn-sm">Sign up free</Link>
+              <Link to="/login" className="btn btn-outline-secondary btn-sm">{t('nav.logIn')}</Link>
+              <Link to="/register" className="btn btn-primary-custom btn-sm">{t('nav.signUpFree')}</Link>
             </>
           )}
         </div>
@@ -31,26 +33,28 @@ export default function LandingPage() {
 
       <div className="landing-hero text-center px-4 py-5">
         <div className="hero-emoji mb-3">🏝️</div>
-        <h1 className="hero-title fw-bold mb-3">Group trips made<br /><span className="text-primary">ridiculously easy</span></h1>
+        <h1 className="hero-title fw-bold mb-3">
+          {t('landing.heroTitle')}<br />
+          <span className="text-primary">{t('landing.heroHighlight')}</span>
+        </h1>
         <p className="hero-subtitle text-muted mb-4 mx-auto">
-          Stop the endless group chat debates. TripVote lets your crew vote on destinations,
-          activities, and transport — then tracks everything in one place.
+          {t('landing.heroSubtitle')}
         </p>
         <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-          <Link to="/register" className="btn btn-primary-custom btn-lg px-5">Start planning free</Link>
-          <Link to="/login" className="btn btn-outline-secondary btn-lg px-4">Log in</Link>
+          <Link to="/register" className="btn btn-primary-custom btn-lg px-5">{t('landing.startPlanningFree')}</Link>
+          <Link to="/login" className="btn btn-outline-secondary btn-lg px-4">{t('nav.logIn')}</Link>
         </div>
-        <p className="text-muted small mt-3">No credit card required</p>
+        <p className="text-muted small mt-3">{t('landing.noCreditCard')}</p>
       </div>
 
       <div className="landing-features px-4 pb-5">
         <div className="row g-3 justify-content-center" style={{ maxWidth: 800, margin: '0 auto' }}>
-          {FEATURES.map(f => (
-            <div key={f.title} className="col-12 col-sm-6">
+          {FEATURE_KEYS.map(f => (
+            <div key={f.titleKey} className="col-12 col-sm-6">
               <div className="feature-card card border-0 h-100 p-3">
                 <div className="feature-icon mb-2">{f.icon}</div>
-                <h6 className="fw-bold mb-1">{f.title}</h6>
-                <p className="text-muted small mb-0">{f.desc}</p>
+                <h6 className="fw-bold mb-1">{t(f.titleKey)}</h6>
+                <p className="text-muted small mb-0">{t(f.descKey)}</p>
               </div>
             </div>
           ))}
@@ -58,7 +62,7 @@ export default function LandingPage() {
       </div>
 
       <div className="text-center pb-5 text-muted small">
-        &copy; {new Date().getFullYear()} TripVote
+        {t('landing.copyright', { year: new Date().getFullYear() })}
       </div>
     </div>
   )
