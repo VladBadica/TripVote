@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { moment } from '../i18n'
+import { moment } from '../../i18n'
 
 const STATUS_BADGE = {
   planning: { key: 'tripCard.status.planning', cls: 'bg-warning-subtle text-warning-emphasis' },

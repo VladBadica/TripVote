@@ -239,19 +239,6 @@ body {
   transition: opacity 0.15s;
 }
 
-// ── Activity timeline ─────────────────────────────────────────────────────────
-.activity-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: $primary-light;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  flex-shrink: 0;
-}
-
 // ── Auth pages ────────────────────────────────────────────────────────────────
 .auth-bg { background: $surface; }
 .auth-card { border-radius: $radius !important; }

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useTrips } from '../context/TripContext'
 import PollCard from '../components/PollCard'
 
-const POLL_TYPES = ['destination', 'transport', 'activity', 'general']
+const POLL_TYPES = ['destination', 'transport', 'general']
 
 export default function VotingPage() {
   const { tripId } = useParams()

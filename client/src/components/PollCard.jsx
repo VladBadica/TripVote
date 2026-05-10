@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useTrips } from '../context/TripContext'
 import { moment } from '../i18n'
 
-const TYPE_ICON = { destination: '🌍', transport: '🚌', activity: '🎯', general: '💬' }
+const TYPE_ICON = { destination: '🌍', transport: '🚌', general: '💬' }
 
 export default function PollCard({ poll }) {
   const { user } = useAuth()

@@ -115,10 +115,6 @@ export default function TripDetailPage() {
           <span className="fw-medium small">{t('tripDetail.quickLinks.openChecklist')}</span>
           <span className="text-muted">›</span>
         </Link>
-        <Link to={`/trips/${tripId}/timeline`} className="quick-link card border-0 shadow-sm text-decoration-none p-3 d-flex flex-row align-items-center justify-content-between">
-          <span className="fw-medium small">{t('tripDetail.quickLinks.activityTimeline')}</span>
-          <span className="text-muted">›</span>
-        </Link>
       </div>
     </div>
   )

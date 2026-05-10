@@ -30,10 +30,6 @@ export default function BottomNav() {
         <span className="bottom-nav-icon">✅</span>
         <span className="bottom-nav-label">{t('nav.checklist')}</span>
       </NavLink>
-      <NavLink to={`/trips/${tripId}/timeline`} className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
-        <span className="bottom-nav-icon">⚡</span>
-        <span className="bottom-nav-label">{t('nav.activity')}</span>
-      </NavLink>
     </nav>
   )
 }

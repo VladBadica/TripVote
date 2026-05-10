@@ -7,8 +7,7 @@
     "trips": "Trips",
     "overview": "Overview",
     "votes": "Votes",
-    "checklist": "Checklist",
-    "activity": "Activity"
+    "checklist": "Checklist"
   },
   "auth": {
     "tagline": "Plan trips together, vote on everything.",
@@ -90,8 +89,7 @@
     "membersSection": "Members",
     "quickLinks": {
       "viewPolls": "🗳️ View polls & votes",
-      "openChecklist": "✅ Open checklist",
-      "activityTimeline": "⚡ Activity timeline"
+      "openChecklist": "✅ Open checklist"
     }
   },
   "tripCard": {
@@ -124,7 +122,6 @@
     "pollTypes": {
       "destination": "Destination",
       "transport": "Transport",
-      "activity": "Activity",
       "general": "General"
     }
   },
@@ -153,13 +150,6 @@
     "markIncomplete": "Mark incomplete",
     "markComplete": "Mark complete",
     "deleteItem": "Delete item"
-  },
-  "timeline": {
-    "title": "⚡ Activity",
-    "empty": {
-      "title": "No activity yet",
-      "subtitle": "Actions like creating polls and completing tasks will show up here."
-    }
   },
   "createTrip": {
     "title": "New Trip ✈️",

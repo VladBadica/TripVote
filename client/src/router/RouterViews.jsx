@@ -11,7 +11,6 @@ import DashboardPage from '../pages/dashboard/DashboardPage';
 import TripDetailPage from '../pages/TripDetailPage';
 import VotingPage from '../pages/VotingPage';
 import ChecklistPage from '../pages/ChecklistPage';
-import TimelinePage from '../pages/TimelinePage';
 
 export default function RouterViews() {
   return (
@@ -34,7 +33,6 @@ export default function RouterViews() {
         <Route path="/trips/:tripId" element={<TripDetailPage />} />
         <Route path="/trips/:tripId/vote" element={<VotingPage />} />
         <Route path="/trips/:tripId/checklist" element={<ChecklistPage />} />
-        <Route path="/trips/:tripId/timeline" element={<TimelinePage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -7,8 +7,7 @@
     "trips": "Călătorii",
     "overview": "Prezentare",
     "votes": "Voturi",
-    "checklist": "Listă",
-    "activity": "Activitate"
+    "checklist": "Listă"
   },
   "auth": {
     "tagline": "Planificați călătorii împreună, votați pentru orice.",
@@ -90,8 +89,7 @@
     "membersSection": "Membri",
     "quickLinks": {
       "viewPolls": "🗳️ Sondaje și voturi",
-      "openChecklist": "✅ Listă de verificare",
-      "activityTimeline": "⚡ Cronologia activității"
+      "openChecklist": "✅ Listă de verificare"
     }
   },
   "tripCard": {
@@ -124,7 +122,6 @@
     "pollTypes": {
       "destination": "Destinație",
       "transport": "Transport",
-      "activity": "Activitate",
       "general": "General"
     }
   },
@@ -155,13 +152,6 @@
     "markIncomplete": "Marchează ca nefinalizat",
     "markComplete": "Marchează ca finalizat",
     "deleteItem": "Șterge elementul"
-  },
-  "timeline": {
-    "title": "⚡ Activitate",
-    "empty": {
-      "title": "Nicio activitate încă",
-      "subtitle": "Acțiunile precum crearea sondajelor și finalizarea sarcinilor vor apărea aici."
-    }
   },
   "createTrip": {
     "title": "Excursie nouă ✈️",

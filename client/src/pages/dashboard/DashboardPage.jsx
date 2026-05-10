@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../context/AuthContext'
-import { useTrips } from '../../context/TripContext'
-import TripCard from '../../components/TripCard'
-import CreateTripModal from './CreateTripModal'
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../context/AuthContext';
+import { useTrips } from '../../context/TripContext';
+import TripCard from './TripCard';
+import CreateTripModal from './CreateTripModal';
 
 export default function DashboardPage() {
   const { user } = useAuth()

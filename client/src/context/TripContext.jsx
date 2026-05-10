@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { mockTrips, mockPolls, mockChecklist, mockActivities } from '../mock/mockData'
+import { mockTrips, mockPolls, mockChecklist } from '../mock/mockData'
 
 const TripContext = createContext(null)
 
@@ -7,7 +7,6 @@ export function TripProvider({ children }) {
   const [trips, setTrips] = useState(mockTrips)
   const [polls, setPolls] = useState(mockPolls)
   const [checklist, setChecklist] = useState(mockChecklist)
-  const [activities, setActivities] = useState(mockActivities)
 
   function createTrip(tripData) {
     const newTrip = {
@@ -19,7 +18,6 @@ export function TripProvider({ children }) {
       ...tripData
     }
     setTrips(prev => [newTrip, ...prev])
-    addActivity(newTrip.id, 'trip_created', 'You', 'created the trip 🎉')
     return newTrip
   }
 
@@ -43,7 +41,6 @@ export function TripProvider({ children }) {
       options: options.map((label, i) => ({ id: `opt-${Date.now()}-${i}`, label, votes: [] }))
     }
     setPolls(prev => [newPoll, ...prev])
-    addActivity(tripId, 'poll_created', 'You', `created a new poll: "${question}"`)
     return newPoll
   }
 
@@ -80,37 +77,17 @@ export function TripProvider({ children }) {
     setChecklist(prev => [...prev, item])
   }
 
-  function toggleChecklistItem(itemId, actorName) {
+  function toggleChecklistItem(itemId) {
     setChecklist(prev =>
       prev.map(item => {
         if (item.id !== itemId) return item
-        const done = !item.done
-        if (done) addActivity(item.tripId, 'checklist_done', actorName, `completed "${item.text}"`)
-        return { ...item, done }
+        return { ...item, done: !item.done }
       })
     )
   }
 
   function deleteChecklistItem(itemId) {
     setChecklist(prev => prev.filter(c => c.id !== itemId))
-  }
-
-  function getActivitiesByTrip(tripId) {
-    return activities
-      .filter(a => a.tripId === tripId)
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-  }
-
-  function addActivity(tripId, type, actor, message) {
-    const item = {
-      id: `act-${Date.now()}`,
-      tripId,
-      type,
-      actor,
-      message,
-      timestamp: new Date().toISOString()
-    }
-    setActivities(prev => [item, ...prev])
   }
 
   return (
@@ -125,7 +102,6 @@ export function TripProvider({ children }) {
       addChecklistItem,
       toggleChecklistItem,
       deleteChecklistItem,
-      getActivitiesByTrip
     }}>
       {children}
     </TripContext.Provider>
