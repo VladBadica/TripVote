@@ -1,0 +1,389 @@
+/* ── Design tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #eef2ff;
+  --surface: #f8fafc;
+  --card-bg: #ffffff;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --success: #22c55e;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+  --nav-height: 64px;
+  --bottom-nav-height: 64px;
+}
+
+/* ── Global reset ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* ── App shell ──────────────────────────────────────────────────────────────── */
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+.pb-nav {
+  padding-bottom: calc(var(--bottom-nav-height) + 20px);
+}
+
+/* ── Top navbar ─────────────────────────────────────────────────────────────── */
+.top-navbar {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  height: var(--nav-height);
+}
+
+.brand-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+.avatar-btn { cursor: pointer; }
+
+.avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Bottom nav ─────────────────────────────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-nav-height);
+  background: white;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+  box-shadow: 0 -1px 12px rgba(0,0,0,.06);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
+  font-size: 0.7rem;
+  min-width: 56px;
+}
+
+.bottom-nav-item.active {
+  color: var(--primary);
+}
+
+.bottom-nav-icon { font-size: 1.2rem; line-height: 1; }
+.bottom-nav-label { font-weight: 500; }
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.btn-primary-custom {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.btn-primary-custom:hover, .btn-primary-custom:focus {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: white;
+}
+
+.btn-primary-custom:disabled {
+  background: var(--primary);
+  border-color: var(--primary);
+  opacity: 0.5;
+}
+
+/* ── Cards ──────────────────────────────────────────────────────────────────── */
+.card {
+  border-radius: var(--radius) !important;
+  background: var(--card-bg);
+}
+
+/* ── Trip card ──────────────────────────────────────────────────────────────── */
+.trip-card {
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.trip-card:hover, .trip-card:focus {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow) !important;
+  outline: none;
+}
+
+.trip-emoji-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.trip-emoji-badge.lg {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  font-size: 2rem;
+}
+
+/* ── Poll card ──────────────────────────────────────────────────────────────── */
+.poll-option {
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.poll-option:not(:disabled):hover { opacity: 0.8; }
+.poll-option:disabled { cursor: default; opacity: 1; }
+
+.poll-progress .progress-bar { background: var(--border); }
+.poll-progress.voted-bar .progress-bar { background: var(--primary); }
+
+/* ── Checklist ──────────────────────────────────────────────────────────────── */
+.checklist-item {
+  background: white;
+  transition: opacity 0.2s;
+}
+
+.checklist-item.done { opacity: 0.7; }
+
+.check-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.check-btn.checked {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.delete-btn {
+  font-size: 1.2rem;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.checklist-item:hover .delete-btn { opacity: 0.5; }
+
+/* ── Activity timeline ──────────────────────────────────────────────────────── */
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ── Auth pages ─────────────────────────────────────────────────────────────── */
+.auth-bg { background: var(--surface); }
+
+.auth-card { border-radius: var(--radius) !important; }
+
+/* ── Landing page ───────────────────────────────────────────────────────────── */
+.landing-page { min-height: 100dvh; background: white; }
+
+.landing-nav {
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+}
+
+.landing-hero { padding-top: 64px !important; padding-bottom: 64px !important; }
+
+.hero-emoji { font-size: 4rem; }
+
+.hero-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.feature-card {
+  background: var(--surface);
+  border-radius: var(--radius) !important;
+}
+
+.feature-icon { font-size: 1.5rem; }
+
+/* ── Dashboard ──────────────────────────────────────────────────────────────── */
+.page-header { padding-top: 4px; }
+
+.invite-banner {
+  background: linear-gradient(135deg, var(--primary-light), #f0f4ff);
+  border-radius: var(--radius) !important;
+}
+
+/* ── Stats grid ─────────────────────────────────────────────────────────────── */
+.stat-card {
+  border-radius: var(--radius) !important;
+  background: white;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s;
+  color: var(--text);
+}
+
+.stat-card:hover { transform: translateY(-2px); }
+
+.stat-icon { font-size: 1.4rem; margin-bottom: 4px; }
+.stat-value { font-size: 1.3rem; font-weight: 700; }
+.stat-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+
+/* ── Quick links ────────────────────────────────────────────────────────────── */
+.quick-link {
+  border-radius: var(--radius) !important;
+  color: var(--text) !important;
+  transition: transform 0.15s;
+}
+
+.quick-link:hover { transform: translateX(2px); }
+
+/* ── Empty states ───────────────────────────────────────────────────────────── */
+.empty-state-emoji { font-size: 3.5rem; }
+
+/* ── Create trip modal ──────────────────────────────────────────────────────── */
+.emoji-picker-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.emoji-picker-btn.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* ── Member avatar ──────────────────────────────────────────────────────────── */
+.member-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ── Bootstrap overrides ────────────────────────────────────────────────────── */
+.form-control, .form-select {
+  border-radius: var(--radius-sm) !important;
+  border-color: var(--border);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+}
+
+.modal-content {
+  border-radius: var(--radius) !important;
+  border: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
+
+.modal-header .btn-close:focus { box-shadow: none; }
+
+.badge { font-weight: 500; }
+
+.bg-warning-subtle { background-color: #fff7ed !important; }
+.text-warning-emphasis { color: #b45309 !important; }
+.bg-success-subtle { background-color: #f0fdf4 !important; }
+.text-success-emphasis { color: #166534 !important; }
+.bg-secondary-subtle { background-color: #f1f5f9 !important; }
+.text-secondary-emphasis { color: #475569 !important; }
+.bg-primary-subtle { background-color: var(--primary-light) !important; }
+.text-primary-emphasis { color: var(--primary-dark) !important; }
+
+/* ── Utilities ──────────────────────────────────────────────────────────────── */
+.min-w-0 { min-width: 0; }
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .bottom-nav { display: none; }
+  .pb-nav { padding-bottom: 20px; }
+  .page-container { padding: 28px 24px; }
+}
