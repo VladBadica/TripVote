@@ -1,18 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase, signIn, signUp, signOut } from '../services/supabaseClient'
-import { mockUser } from '../mock/mockData'
 
 const AuthContext = createContext(null)
 
-const USE_MOCK = !import.meta.env.VITE_SUPABASE_URL
-
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(USE_MOCK ? mockUser : null)
-  const [loading, setLoading] = useState(!USE_MOCK)
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (USE_MOCK) return
-
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
       setLoading(false)
@@ -26,19 +21,16 @@ export function AuthProvider({ children }) {
   }, [])
 
   async function login(email, password) {
-    if (USE_MOCK) { setUser(mockUser); return { error: null } }
     const { error } = await signIn(email, password)
     return { error }
   }
 
   async function register(email, password, fullName) {
-    if (USE_MOCK) { setUser({ ...mockUser, email, user_metadata: { full_name: fullName } }); return { error: null } }
     const { error } = await signUp(email, password, fullName)
     return { error }
   }
 
   async function logout() {
-    if (USE_MOCK) { setUser(null); return }
     await signOut()
   }
 
