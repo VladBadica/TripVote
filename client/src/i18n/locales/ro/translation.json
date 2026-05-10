@@ -58,8 +58,7 @@
       "liveActivity_desc": "Rămâi la curent cu o cronologie în timp real a fiecărei decizii de grup.",
       "easyInvite_title": "Invitație ușoară",
       "easyInvite_desc": "Partajați un link — prietenii se alătură instant, fără fricțiuni la înregistrare."
-    },
-    "copyright": "© {{year}} TripVote"
+    }
   },
   "dashboard": {
     "greeting": "Salut, {{name}} 👋",

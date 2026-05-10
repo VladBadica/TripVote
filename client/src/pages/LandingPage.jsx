@@ -60,10 +60,6 @@ export default function LandingPage() {
           ))}
         </div>
       </div>
-
-      <div className="text-center pb-5 text-muted small">
-        {t('landing.copyright', { year: new Date().getFullYear() })}
-      </div>
     </div>
   )
 }

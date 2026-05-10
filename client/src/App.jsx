@@ -1,5 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { useAuth } from './context/AuthContext'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { TripProvider } from './context/TripContext'
 
 import MainLayout from './layouts/MainLayout'
 import AuthLayout from './layouts/AuthLayout'
@@ -21,29 +22,35 @@ function PrivateRoute({ children }) {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
+    <BrowserRouter>
+      <AuthProvider>
+        <TripProvider>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
 
-      <Route element={<AuthLayout />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Route>
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+            </Route>
 
-      <Route
-        element={
-          <PrivateRoute>
-            <MainLayout />
-          </PrivateRoute>
-        }
-      >
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/trips/:tripId" element={<TripDetailPage />} />
-        <Route path="/trips/:tripId/vote" element={<VotingPage />} />
-        <Route path="/trips/:tripId/checklist" element={<ChecklistPage />} />
-        <Route path="/trips/:tripId/timeline" element={<TimelinePage />} />
-      </Route>
+            <Route
+              element={
+                <PrivateRoute>
+                  <MainLayout />
+                </PrivateRoute>
+              }
+            >
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/trips/:tripId" element={<TripDetailPage />} />
+              <Route path="/trips/:tripId/vote" element={<VotingPage />} />
+              <Route path="/trips/:tripId/checklist" element={<ChecklistPage />} />
+              <Route path="/trips/:tripId/timeline" element={<TimelinePage />} />
+            </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </TripProvider>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
