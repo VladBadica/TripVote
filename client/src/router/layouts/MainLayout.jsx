@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import TopNavbar from '../../common/TopNavbar'
-import BottomNav from '../../components/BottomNav'
+import BottomNav from '../../common/BottomNav'
 
 export default function MainLayout() {
   return (
