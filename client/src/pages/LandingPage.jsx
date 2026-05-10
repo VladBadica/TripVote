@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
+const APP_NAME = import.meta.env.VITE_APP_NAME
 
 const FEATURE_KEYS = [
   { icon: '🗳️', titleKey: 'landing.features.voteTogether_title', descKey: 'landing.features.voteTogether_desc' },
@@ -17,7 +18,7 @@ export default function LandingPage() {
     <div className="landing-page">
       <nav className="landing-nav d-flex align-items-center justify-content-between px-4 py-3">
         <span className="brand-name d-flex align-items-center gap-2">
-          <span>✈️</span> TripVote
+          <span>✈️</span> {APP_NAME}
         </span>
         <div className="d-flex gap-2">
           {user ? (

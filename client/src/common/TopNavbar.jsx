@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, Container, Dropdown } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
+const APP_NAME = import.meta.env.VITE_APP_NAME
 
 export default function TopNavbar() {
   const { user, logout } = useAuth()
@@ -21,11 +22,11 @@ export default function TopNavbar() {
       <Container fluid className="px-3">
         <Link to="/dashboard" className="navbar-brand text-decoration-none d-flex align-items-center gap-2">
           <span className="fs-5">✈️</span>
-          <span className="brand-name">TripVote</span>
+          <span className="brand-name">{APP_NAME}</span>
         </Link>
 
         <Dropdown align="end">
-          <Dropdown.Toggle as="button" className="avatar-btn border-0 bg-transparent p-0">
+          <Dropdown.Toggle as="button" className="avatar-btn border-0 bg-transparent p-0 d-flex align-items-center">
             <div className="avatar-circle">{initials}</div>
           </Dropdown.Toggle>
           <Dropdown.Menu className="shadow border-0 mt-2">

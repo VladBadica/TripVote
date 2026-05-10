@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Modal, Form, Button, Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useTrips } from '../context/TripContext'
+import { useTrips } from '../../context/TripContext'
 
 const EMOJIS = ['✈️', '🏝️', '⛷️', '🏕️', '🌆', '🗺️', '🚢', '🎡', '🌋', '🏔️']
 

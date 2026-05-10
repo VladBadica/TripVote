@@ -7,7 +7,7 @@ import RequireAuth from './RequireAuth';
 import LandingPage from '../pages/LandingPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
-import DashboardPage from '../pages/DashboardPage';
+import DashboardPage from '../pages/dashboard/DashboardPage';
 import TripDetailPage from '../pages/TripDetailPage';
 import VotingPage from '../pages/VotingPage';
 import ChecklistPage from '../pages/ChecklistPage';
