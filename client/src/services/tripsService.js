@@ -144,8 +144,7 @@ export async function getPollsByTrip(tripId) {
   const { data, error } = await supabase
     .from('polls')
     .select(`
-      id, trip_id, type, question, closed, created_at,
-      profiles!created_by(full_name),
+      id, trip_id, type, question, created_by, closed, created_at,
       poll_options(id, label, position,
         poll_votes(user_id)
       )
@@ -160,7 +159,7 @@ export async function getPollsByTrip(tripId) {
     tripId: p.trip_id,
     type: p.type,
     question: p.question,
-    createdBy: p.profiles?.full_name ?? null,
+    createdBy: p.created_by,
     createdAt: p.created_at,
     closed: p.closed,
     options: (p.poll_options ?? [])
@@ -175,15 +174,49 @@ export async function getPollsByTrip(tripId) {
   return { data: normalized, error: null }
 }
 
+export async function castVote(pollId, pollOptionId) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { data: null, error: new Error('Not authenticated') }
+
+  // Delete existing vote first to allow changing vote
+  await supabase.from('poll_votes').delete().eq('poll_id', pollId).eq('user_id', user.id)
+
+  const { data, error } = await supabase
+    .from('poll_votes')
+    .insert({ poll_id: pollId, poll_option_id: pollOptionId, user_id: user.id })
+    .select('id')
+    .single()
+
+  return { data, error }
+}
+
+export async function createPoll(tripId, { question, type, options }) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { data: null, error: new Error('Not authenticated') }
+
+  const { data: poll, error: pollError } = await supabase
+    .from('polls')
+    .insert({ trip_id: tripId, question, type, created_by: user.id })
+    .select('id')
+    .single()
+
+  if (pollError) return { data: null, error: pollError }
+
+  const { error: optionsError } = await supabase
+    .from('poll_options')
+    .insert(options.map((label, i) => ({ poll_id: poll.id, label, position: i })))
+
+  if (optionsError) return { data: null, error: optionsError }
+
+  return { data: poll, error: null }
+}
+
 // ---------- checklist ----------
 
 export async function getChecklistByTrip(tripId) {
   const { data, error } = await supabase
     .from('checklist_items')
-    .select(`
-      id, trip_id, text, done, due_date, created_at,
-      profiles!assignee_id(full_name)
-    `)
+    .select('id, trip_id, text, done, assignee_id, due_date, created_at')
     .eq('trip_id', tripId)
     .order('created_at', { ascending: true })
 
@@ -194,7 +227,7 @@ export async function getChecklistByTrip(tripId) {
     tripId: item.trip_id,
     text: item.text,
     done: item.done,
-    assignee: item.profiles?.full_name ?? null,
+    assignee: item.assignee_id,
     dueDate: item.due_date,
   }))
 

@@ -1,21 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Modal, Form, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { useTrips } from '../context/TripContext'
-import PollCard from '../components/PollCard'
+import PollCard from './PollCard'
+import { getPollsByTrip, createPoll } from '../../services/tripsService'
+import { useService } from '../../common/useService'
 
 const POLL_TYPES = ['destination', 'transport', 'general']
 
 export default function VotingPage() {
   const { tripId } = useParams()
-  const { getPollsByTrip, createPoll } = useTrips()
   const { t } = useTranslation()
-  const polls = getPollsByTrip(tripId)
-
+  const call = useService()
+  const [polls, setPolls] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState({ question: '', type: 'destination', options: ['', ''] })
   const [loading, setLoading] = useState(false)
+
+  async function refreshPolls() {
+    const data = await call(getPollsByTrip, tripId)
+    if (data) setPolls(data)
+  }
+
+  useEffect(() => { refreshPolls() }, [tripId])
 
   function handleChange(e) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -39,13 +46,16 @@ export default function VotingPage() {
     setForm(prev => ({ ...prev, options: prev.options.filter((_, idx) => idx !== i) }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     const clean = form.options.map(o => o.trim()).filter(Boolean)
     if (!form.question.trim() || clean.length < 2) return
     setLoading(true)
-    createPoll(tripId, form.question, form.type, clean)
+    const data = await call(createPoll, tripId, { question: form.question, type: form.type, options: clean })
     setLoading(false)
+    if (!data) return
+    const refreshed = await call(getPollsByTrip, tripId)
+    if (refreshed) setPolls(refreshed)
     setForm({ question: '', type: 'destination', options: ['', ''] })
     setShowModal(false)
   }
@@ -78,7 +88,7 @@ export default function VotingPage() {
           <p className="small fw-semibold text-muted mb-2 text-uppercase" style={{ letterSpacing: '0.05em' }}>
             {t('voting.activeSection')}
           </p>
-          {open.map(p => <PollCard key={p.id} poll={p} />)}
+          {open.map(p => <PollCard key={p.id} poll={p} onVote={refreshPolls} />)}
         </>
       )}
 
@@ -87,7 +97,7 @@ export default function VotingPage() {
           <p className="small fw-semibold text-muted mb-2 mt-4 text-uppercase" style={{ letterSpacing: '0.05em' }}>
             {t('voting.closedSection')}
           </p>
-          {closed.map(p => <PollCard key={p.id} poll={p} />)}
+          {closed.map(p => <PollCard key={p.id} poll={p} onVote={refreshPolls} />)}
         </>
       )}
 

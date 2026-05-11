@@ -3,31 +3,27 @@ import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next'
 import { mockMembers } from '../mock/mockData'
 import { moment } from '../i18n'
-import { getTripById } from '../services/tripsService'
+import { getTripById, getPollsByTrip, getChecklistByTrip } from '../services/tripsService'
+import { useService } from '../common/useService'
 
 export default function TripDetailPage() {
   const { tripId } = useParams()
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const call = useService()
   const [trip, setTrip] = useState(null);
   const [polls, setPolls] = useState([]);
   const [checklist, setChecklist] = useState([]);
 
   const getTripData = useCallback(async (tripId) => {
-    const response = await getTripById(tripId);
-    if (!response.error) {
-      setTrip(response.data);
-    }
-
-    const response2 = await getPollsByTrip(tripId);
-    if (!response2.error) {
-      setPolls(response2.data);
-    }
-
-    const response3 = await getChecklistByTrip(tripId);
-    if (!response3.error) {
-      setChecklist(response3.data);
-    }
+    const [tripData, pollsData, checklistData] = await Promise.all([
+      call(getTripById, tripId),
+      call(getPollsByTrip, tripId),
+      call(getChecklistByTrip, tripId),
+    ])
+    if (tripData) setTrip(tripData)
+    if (pollsData) setPolls(pollsData)
+    if (checklistData) setChecklist(checklistData)
   }, []);
 
   useEffect(function initTripData() {

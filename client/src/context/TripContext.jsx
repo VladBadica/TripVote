@@ -1,33 +1,9 @@
 import { createContext, useContext, useState } from 'react'
-import { mockTrips, mockPolls, mockChecklist } from '../mock/mockData'
 
 const TripContext = createContext(null)
 
 export function TripProvider({ children }) {
-  const [trips, setTrips] = useState(mockTrips)
-  const [polls, setPolls] = useState(mockPolls)
-  const [checklist, setChecklist] = useState(mockChecklist)
 
-  function createTrip(tripData) {
-    const newTrip = {
-      id: `trip-${Date.now()}`,
-      memberCount: 1,
-      status: 'planning',
-      inviteCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
-      coverEmoji: '✈️',
-      ...tripData
-    }
-    setTrips(prev => [newTrip, ...prev])
-    return newTrip
-  }
-
-  function getTripById(id) {
-    return trips.find(t => t.id === id) ?? null
-  }
-
-  function getPollsByTrip(tripId) {
-    return polls.filter(p => p.tripId === tripId)
-  }
 
   function createPoll(tripId, question, type, options) {
     const newPoll = {
@@ -61,10 +37,6 @@ export function TripProvider({ children }) {
     )
   }
 
-  function getChecklistByTrip(tripId) {
-    return checklist.filter(c => c.tripId === tripId)
-  }
-
   function addChecklistItem(tripId, text) {
     const item = {
       id: `chk-${Date.now()}`,
@@ -92,13 +64,8 @@ export function TripProvider({ children }) {
 
   return (
     <TripContext.Provider value={{
-      trips,
-      createTrip,
-      getTripById,
-      getPollsByTrip,
       createPoll,
       castVote,
-      getChecklistByTrip,
       addChecklistItem,
       toggleChecklistItem,
       deleteChecklistItem,

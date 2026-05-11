@@ -1,22 +1,26 @@
 import { ProgressBar } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../context/AuthContext'
-import { useTrips } from '../context/TripContext'
-import { moment } from '../i18n'
+import { useAuth } from '../../context/AuthContext'
+import { useService } from '../../common/useService'
+import { castVote } from '../../services/tripsService'
+import { moment } from '../../i18n'
 
 const TYPE_ICON = { destination: '🌍', transport: '🚌', general: '💬' }
 
-export default function PollCard({ poll }) {
+export default function PollCard({ poll, onVote }) {
   const { user } = useAuth()
-  const { castVote } = useTrips()
+  const call = useService()
   const { t } = useTranslation()
 
   const totalVotes = poll.options.reduce((sum, opt) => sum + opt.votes.length, 0)
   const userId = user?.id
 
-  function handleVote(optId) {
+  async function handleVote(optId) {
     if (poll.closed) return
-    castVote(poll.id, optId, userId)
+    const alreadyVoted = poll.options.find(o => o.id === optId)?.votes.includes(userId)
+    if (alreadyVoted) return
+    const data = await call(castVote, poll.id, optId)
+    if (data !== null) onVote?.()
   }
 
   return (

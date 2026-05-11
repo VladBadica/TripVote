@@ -4,11 +4,12 @@ import { useAuth } from '../../context/AuthContext';
 import TripCard from './TripCard';
 import CreateTripModal from './CreateTripModal';
 import { getMyTrips } from '../../services/tripsService';
-import PubSub from '../../common/PubSub';
+import { useService } from '../../common/useService';
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const { t } = useTranslation();
+  const call = useService();
   const [trips, setTrips] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [joinCode, setJoinCode] = useState('');
@@ -16,17 +17,8 @@ export default function DashboardPage() {
   const firstName = user?.user_metadata?.full_name?.split(' ')[0] ?? 'Traveller'
 
   const getAllTrips = async () => {
-    const response = await getMyTrips();
-    console.log(response)
-    if (!response.error) {
-      setTrips(response.data);
-    }
-    else {
-      PubSub.publish("show_info", {
-        header: t("common.error"),
-        text: response.error?.message
-      });
-    }
+    const data = await call(getMyTrips)
+    if (data) setTrips(data)
   }
 
   const handleJoin = (e) => {
