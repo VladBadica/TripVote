@@ -11,14 +11,17 @@ export default function DashboardPage() {
   const { t } = useTranslation();
   const call = useService();
   const [trips, setTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [joinCode, setJoinCode] = useState('');
 
   const firstName = user?.user_metadata?.full_name?.split(' ')[0] ?? 'Traveller'
 
   const getAllTrips = async () => {
+    setLoading(true)
     const data = await call(getMyTrips)
     if (data) setTrips(data)
+    setLoading(false)
   }
 
   const handleJoin = (e) => {
@@ -43,7 +46,20 @@ export default function DashboardPage() {
         </button>
       </div>
 
-      {trips.length === 0 ? (
+      {loading ? (
+        [0, 1, 2].map(i => (
+          <div key={i} className="card border-0 shadow-sm mb-3 placeholder-glow">
+            <div className="card-body p-3 d-flex align-items-center gap-3">
+              <span className="placeholder rounded-3 flex-shrink-0" style={{ width: 48, height: 48 }} />
+              <div className="flex-grow-1">
+                <span className="placeholder col-6 d-block mb-2 rounded" />
+                <span className="placeholder col-4 d-block rounded" />
+              </div>
+              <span className="placeholder col-2 rounded" />
+            </div>
+          </div>
+        ))
+      ) : trips.length === 0 ? (
         <div className="empty-state text-center py-5">
           <div className="empty-state-emoji">✈️</div>
           <h5 className="fw-bold mt-3">{t('dashboard.empty.title')}</h5>

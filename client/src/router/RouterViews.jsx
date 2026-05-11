@@ -10,7 +10,7 @@ import RegisterPage from '../pages/RegisterPage';
 import DashboardPage from '../pages/dashboard/DashboardPage';
 import TripDetailPage from '../pages/TripDetailPage';
 import VotingPage from '../pages/votingpage/VotingPage';
-import ChecklistPage from '../pages/ChecklistPage';
+import ChecklistPage from '../pages/checklistpage/ChecklistPage';
 
 export default function RouterViews() {
   return (

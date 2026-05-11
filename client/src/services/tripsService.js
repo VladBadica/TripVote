@@ -213,6 +213,35 @@ export async function createPoll(tripId, { question, type, options }) {
 
 // ---------- checklist ----------
 
+export async function addChecklistItem(tripId, text) {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { data: null, error: new Error('Not authenticated') }
+
+  const { data, error } = await supabase
+    .from('checklist_items')
+    .insert({ trip_id: tripId, text, created_by: user.id })
+    .select('id')
+    .single()
+
+  return { data, error }
+}
+
+export async function toggleChecklistItem(itemId, done) {
+  const { data, error } = await supabase
+    .from('checklist_items')
+    .update({ done })
+    .eq('id', itemId)
+    .select('id, done')
+    .single()
+
+  return { data, error }
+}
+
+export async function deleteChecklistItem(itemId) {
+  const { error } = await supabase.from('checklist_items').delete().eq('id', itemId)
+  return { data: error ? null : true, error }
+}
+
 export async function getChecklistByTrip(tripId) {
   const { data, error } = await supabase
     .from('checklist_items')

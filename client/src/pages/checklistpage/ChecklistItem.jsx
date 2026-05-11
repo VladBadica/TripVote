@@ -1,19 +1,26 @@
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../context/AuthContext'
-import { useTrips } from '../context/TripContext'
+import { useService } from '../../common/useService'
+import { toggleChecklistItem, deleteChecklistItem } from '../../services/tripsService'
 
-export default function ChecklistItem({ item }) {
-  const { user } = useAuth()
-  const { toggleChecklistItem, deleteChecklistItem } = useTrips()
+export default function ChecklistItem({ item, onRefresh }) {
+  const call = useService()
   const { t } = useTranslation()
 
-  const displayName = user?.user_metadata?.full_name ?? 'You'
+  async function handleToggle() {
+    const data = await call(toggleChecklistItem, item.id, !item.done)
+    if (data) onRefresh?.()
+  }
+
+  async function handleDelete() {
+    const data = await call(deleteChecklistItem, item.id)
+    if (data) onRefresh?.()
+  }
 
   return (
     <div className={`checklist-item d-flex align-items-center gap-3 p-3 rounded-3 mb-2 ${item.done ? 'done' : ''}`}>
       <button
         className={`check-btn flex-shrink-0 ${item.done ? 'checked' : ''}`}
-        onClick={() => toggleChecklistItem(item.id, displayName)}
+        onClick={handleToggle}
         aria-label={item.done ? t('checklistItem.markIncomplete') : t('checklistItem.markComplete')}
       >
         {item.done ? '✓' : ''}
@@ -33,7 +40,7 @@ export default function ChecklistItem({ item }) {
 
       <button
         className="btn btn-link text-muted p-0 flex-shrink-0 delete-btn"
-        onClick={() => deleteChecklistItem(item.id)}
+        onClick={handleDelete}
         aria-label={t('checklistItem.deleteItem')}
       >
         ×

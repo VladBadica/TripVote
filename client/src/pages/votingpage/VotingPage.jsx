@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Modal, Form, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import PollCard from './PollCard'
@@ -10,16 +10,20 @@ const POLL_TYPES = ['destination', 'transport', 'general']
 
 export default function VotingPage() {
   const { tripId } = useParams()
+  const navigate = useNavigate()
   const { t } = useTranslation()
   const call = useService()
   const [polls, setPolls] = useState([])
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState({ question: '', type: 'destination', options: ['', ''] })
-  const [loading, setLoading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   async function refreshPolls() {
+    setLoading(true)
     const data = await call(getPollsByTrip, tripId)
     if (data) setPolls(data)
+    setLoading(false)
   }
 
   useEffect(() => { refreshPolls() }, [tripId])
@@ -50,9 +54,9 @@ export default function VotingPage() {
     e.preventDefault()
     const clean = form.options.map(o => o.trim()).filter(Boolean)
     if (!form.question.trim() || clean.length < 2) return
-    setLoading(true)
+    setSubmitting(true)
     const data = await call(createPoll, tripId, { question: form.question, type: form.type, options: clean })
-    setLoading(false)
+    setSubmitting(false)
     if (!data) return
     const refreshed = await call(getPollsByTrip, tripId)
     if (refreshed) setPolls(refreshed)
@@ -65,6 +69,9 @@ export default function VotingPage() {
 
   return (
     <div className="page-container pb-nav">
+      <button className="btn btn-link p-0 text-muted mb-3" onClick={() => navigate(`/trips/${tripId}`)}>
+        {t('tripDetail.back')}
+      </button>
       <div className="d-flex align-items-center justify-content-between mb-4">
         <h5 className="fw-bold mb-0">{t('voting.title')}</h5>
         <button className="btn btn-primary-custom btn-sm" onClick={() => setShowModal(true)}>
@@ -72,7 +79,20 @@ export default function VotingPage() {
         </button>
       </div>
 
-      {open.length === 0 && closed.length === 0 && (
+      {loading ? (
+        [0, 1, 2].map(i => (
+          <div key={i} className="card border-0 shadow-sm mb-3 placeholder-glow">
+            <div className="card-body p-3">
+              <span className="placeholder col-3 d-block mb-2 rounded" />
+              <span className="placeholder col-7 d-block mb-3 rounded" />
+              <span className="placeholder col-12 d-block mb-2 rounded" style={{ height: 32 }} />
+              <span className="placeholder col-12 d-block rounded" style={{ height: 32 }} />
+            </div>
+          </div>
+        ))
+      ) : null}
+
+      {!loading && open.length === 0 && closed.length === 0 && (
         <div className="empty-state text-center py-5">
           <div className="empty-state-emoji">🗳️</div>
           <h5 className="fw-bold mt-3">{t('voting.empty.title')}</h5>
@@ -83,7 +103,7 @@ export default function VotingPage() {
         </div>
       )}
 
-      {open.length > 0 && (
+      {!loading && open.length > 0 && (
         <>
           <p className="small fw-semibold text-muted mb-2 text-uppercase" style={{ letterSpacing: '0.05em' }}>
             {t('voting.activeSection')}
@@ -92,7 +112,7 @@ export default function VotingPage() {
         </>
       )}
 
-      {closed.length > 0 && (
+      {!loading && closed.length > 0 && (
         <>
           <p className="small fw-semibold text-muted mb-2 mt-4 text-uppercase" style={{ letterSpacing: '0.05em' }}>
             {t('voting.closedSection')}
@@ -139,7 +159,7 @@ export default function VotingPage() {
                 {t('voting.modal.addOption')}
               </button>
             )}
-            <Button type="submit" className="w-100 btn-primary-custom mt-2" disabled={loading}>
+            <Button type="submit" className="w-100 btn-primary-custom mt-2" disabled={submitting}>
               {t('voting.modal.submit')}
             </Button>
           </Form>
