@@ -2,18 +2,28 @@ import { useState } from 'react'
 import { Modal, Form, Button, Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useTrips } from '../../context/TripContext'
+import { useTrips } from '../../context/TripContext';
+import { createTrip } from '../../services/tripsService';
+import PubSub from '../../common/PubSub';
 
 const EMOJIS = ['✈️', '🏝️', '⛷️', '🏕️', '🌆', '🗺️', '🚢', '🎡', '🌋', '🏔️']
 
 export default function CreateTripModal({ show, onHide }) {
-  const { createTrip } = useTrips()
   const navigate = useNavigate()
   const { t } = useTranslation()
 
   const [form, setForm] = useState({ name: '', destination: '', startDate: '', endDate: '', coverEmoji: '✈️' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  async function createNewTrip({ name, destination, coverEmoji, startDate, endDate }) {
+    const { data, error } = await createTrip({ name, destination, coverEmoji, startDate, endDate })
+    if (error) {
+      PubSub.publish('show_info', { header: t('common.error'), text: error.message })
+      return null;
+    }
+    return data;
+  }
 
   function handleChange(e) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -32,8 +42,9 @@ export default function CreateTripModal({ show, onHide }) {
     const err = validate()
     if (err) { setError(err); return }
     setLoading(true)
-    const trip = createTrip({ ...form })
+    const trip = await createNewTrip({ ...form })
     setLoading(false)
+    if (!trip) return
     setForm({ name: '', destination: '', startDate: '', endDate: '', coverEmoji: '✈️' })
     setError('')
     onHide()

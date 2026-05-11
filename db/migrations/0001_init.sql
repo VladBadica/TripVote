@@ -198,6 +198,9 @@ create policy "profiles: update own"
 create policy "trips: members can read"
   on trips for select using (is_trip_member(id));
 
+create policy "trips: creator can read own"
+  on trips for select using (created_by = auth.uid());
+
 create policy "trips: authenticated can create"
   on trips for insert with check (auth.uid() = created_by);
 

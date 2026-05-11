@@ -1,24 +1,43 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { useTrips } from '../../context/TripContext';
 import TripCard from './TripCard';
 import CreateTripModal from './CreateTripModal';
+import { getMyTrips } from '../../services/tripsService';
+import PubSub from '../../common/PubSub';
 
 export default function DashboardPage() {
-  const { user } = useAuth()
-  const { trips } = useTrips()
-  const { t } = useTranslation()
-  const [showModal, setShowModal] = useState(false)
-  const [joinCode, setJoinCode] = useState('')
+  const { user } = useAuth();
+  const { t } = useTranslation();
+  const [trips, setTrips] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [joinCode, setJoinCode] = useState('');
 
   const firstName = user?.user_metadata?.full_name?.split(' ')[0] ?? 'Traveller'
 
-  function handleJoin(e) {
+  const getAllTrips = async () => {
+    const response = await getMyTrips();
+    console.log(response)
+    if (!response.error) {
+      setTrips(response.data);
+    }
+    else {
+      PubSub.publish("show_info", {
+        header: t("common.error"),
+        text: response.error?.message
+      });
+    }
+  }
+
+  const handleJoin = (e) => {
     e.preventDefault()
     alert(t('dashboard.joiningAlert', { code: joinCode.toUpperCase() }))
     setJoinCode('')
   }
+
+  useEffect(function initializeTrips() {
+    getAllTrips();
+  }, []);
 
   return (
     <div className="page-container pb-nav">

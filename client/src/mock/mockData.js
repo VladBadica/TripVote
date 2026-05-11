@@ -1,9 +1,3 @@
-export const mockUser = {
-  id: 'user-1',
-  email: 'alex@example.com',
-  user_metadata: { full_name: 'Alex Rivera' }
-}
-
 export const mockTrips = [
   {
     id: 'trip-1',

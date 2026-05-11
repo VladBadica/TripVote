@@ -1,4 +1,8 @@
 {
+  "common": {
+    "error": "Eroare",
+    "close": "Inchide"
+  },
   "nav": {
     "myTrips": "Călătoriile mele",
     "logIn": "Autentificare",

@@ -1,4 +1,7 @@
 {
+  "common": {
+    "error": "Error"
+  },
   "nav": {
     "myTrips": "My trips",
     "logIn": "Log in",
