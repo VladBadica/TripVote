@@ -1,16 +1,41 @@
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next'
-import { useTrips } from '../context/TripContext'
 import { mockMembers } from '../mock/mockData'
 import { moment } from '../i18n'
+import { getTripById } from '../services/tripsService'
 
 export default function TripDetailPage() {
   const { tripId } = useParams()
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { getTripById, getPollsByTrip, getChecklistByTrip } = useTrips()
+  const [trip, setTrip] = useState(null);
+  const [polls, setPolls] = useState([]);
+  const [checklist, setChecklist] = useState([]);
 
-  const trip = getTripById(tripId)
+  const getTripData = useCallback(async (tripId) => {
+    const response = await getTripById(tripId);
+    if (!response.error) {
+      setTrip(response.data);
+    }
+
+    const response2 = await getPollsByTrip(tripId);
+    if (!response2.error) {
+      setPolls(response2.data);
+    }
+
+    const response3 = await getChecklistByTrip(tripId);
+    if (!response3.error) {
+      setChecklist(response3.data);
+    }
+  }, []);
+
+  useEffect(function initTripData() {
+    if (tripId) {
+      getTripData(tripId);
+    }
+  }, [tripId]);
+
   if (!trip) {
     return (
       <div className="page-container text-center py-5">
@@ -22,9 +47,7 @@ export default function TripDetailPage() {
     )
   }
 
-  const polls = getPollsByTrip(tripId)
-  const checklist = getChecklistByTrip(tripId)
-  const done = checklist.filter(c => c.done).length
+  const done = checklist?.filter(c => c.done).length
 
   function copyInvite() {
     navigator.clipboard.writeText(trip.inviteCode).then(() =>

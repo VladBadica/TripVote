@@ -138,6 +138,69 @@ export async function joinTripByInviteCode(inviteCode) {
   return { data: normalize(trip), error: null }
 }
 
+// ---------- polls ----------
+
+export async function getPollsByTrip(tripId) {
+  const { data, error } = await supabase
+    .from('polls')
+    .select(`
+      id, trip_id, type, question, closed, created_at,
+      profiles!created_by(full_name),
+      poll_options(id, label, position,
+        poll_votes(user_id)
+      )
+    `)
+    .eq('trip_id', tripId)
+    .order('created_at', { ascending: true })
+
+  if (error) return { data: null, error }
+
+  const normalized = data.map((p) => ({
+    id: p.id,
+    tripId: p.trip_id,
+    type: p.type,
+    question: p.question,
+    createdBy: p.profiles?.full_name ?? null,
+    createdAt: p.created_at,
+    closed: p.closed,
+    options: (p.poll_options ?? [])
+      .sort((a, b) => a.position - b.position)
+      .map((opt) => ({
+        id: opt.id,
+        label: opt.label,
+        votes: (opt.poll_votes ?? []).map((v) => v.user_id),
+      })),
+  }))
+
+  return { data: normalized, error: null }
+}
+
+// ---------- checklist ----------
+
+export async function getChecklistByTrip(tripId) {
+  const { data, error } = await supabase
+    .from('checklist_items')
+    .select(`
+      id, trip_id, text, done, due_date, created_at,
+      profiles!assignee_id(full_name)
+    `)
+    .eq('trip_id', tripId)
+    .order('created_at', { ascending: true })
+
+  if (error) return { data: null, error }
+
+  const normalized = data.map((item) => ({
+    id: item.id,
+    tripId: item.trip_id,
+    text: item.text,
+    done: item.done,
+    assignee: item.profiles?.full_name ?? null,
+    dueDate: item.due_date,
+  }))
+
+  return { data: normalized, error: null }
+}
+
 // ---------- real-time ----------
 
 export function subscribeToTrip(tripId, callback) {
