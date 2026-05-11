@@ -1,27 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ChecklistItem from './ChecklistItem'
 import { getChecklistByTrip, addChecklistItem } from '../../services/tripsService'
+import { useAsync } from '../../common/useAsync'
 import { useService } from '../../common/useService'
+import { ChecklistSkeleton } from '../../common/Skeletons'
+import EmptyState from '../../common/EmptyState'
 
 export default function ChecklistPage() {
   const { tripId } = useParams()
   const navigate = useNavigate()
   const { t } = useTranslation()
   const call = useService()
-  const [checklist, setChecklist] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { data: checklist, loading, refresh: refreshChecklist } = useAsync(() => getChecklistByTrip(tripId), [tripId])
   const [text, setText] = useState('')
-
-  async function refreshChecklist() {
-    setLoading(true)
-    const data = await call(getChecklistByTrip, tripId)
-    if (data) setChecklist(data)
-    setLoading(false)
-  }
-
-  useEffect(() => { refreshChecklist() }, [tripId])
 
   async function handleAdd(e) {
     e.preventDefault()
@@ -30,9 +23,10 @@ export default function ChecklistPage() {
     if (data) { setText(''); refreshChecklist() }
   }
 
-  const done = checklist.filter(c => c.done)
-  const todo = checklist.filter(c => !c.done)
-  const pct = checklist.length > 0 ? Math.round((done.length / checklist.length) * 100) : 0
+  const items = checklist ?? []
+  const done = items.filter(c => c.done)
+  const todo = items.filter(c => !c.done)
+  const pct = items.length > 0 ? Math.round((done.length / items.length) * 100) : 0
 
   return (
     <div className="page-container pb-nav">
@@ -43,11 +37,11 @@ export default function ChecklistPage() {
       <div className="d-flex align-items-center justify-content-between mb-3">
         <h5 className="fw-bold mb-0">{t('checklist.title')}</h5>
         <span className="badge bg-primary-subtle text-primary-emphasis">
-          {t('checklist.badge', { done: done.length, total: checklist.length })}
+          {t('checklist.badge', { done: done.length, total: items.length })}
         </span>
       </div>
 
-      {checklist.length > 0 && (
+      {items.length > 0 && (
         <div className="mb-4">
           <div className="progress" style={{ height: 6 }}>
             <div className="progress-bar bg-success" style={{ width: `${pct}%`, transition: 'width 0.4s ease' }} />
@@ -68,40 +62,31 @@ export default function ChecklistPage() {
         </button>
       </form>
 
-      {loading ? (
-        [0, 1, 2, 3].map(i => (
-          <div key={i} className="checklist-item d-flex align-items-center gap-3 p-3 rounded-3 mb-2 placeholder-glow">
-            <span className="placeholder rounded-circle flex-shrink-0" style={{ width: 28, height: 28 }} />
-            <span className="placeholder rounded flex-grow-1" style={{ height: 16 }} />
-          </div>
-        ))
-      ) : (
+      {loading && <ChecklistSkeleton count={4} />}
+
+      {!loading && !items.length && (
+        <EmptyState
+          icon="📋"
+          title={t('checklist.empty.title')}
+          subtitle={t('checklist.empty.subtitle')}
+        />
+      )}
+
+      {!loading && todo.length > 0 && (
         <>
-          {checklist.length === 0 && (
-            <div className="empty-state text-center py-5">
-              <div className="empty-state-emoji">📋</div>
-              <h5 className="fw-bold mt-3">{t('checklist.empty.title')}</h5>
-              <p className="text-muted small">{t('checklist.empty.subtitle')}</p>
-            </div>
-          )}
+          <p className="small fw-semibold text-muted mb-2 text-uppercase" style={{ letterSpacing: '0.05em' }}>
+            {t('checklist.todoSection')}
+          </p>
+          {todo.map(item => <ChecklistItem key={item.id} item={item} onRefresh={refreshChecklist} />)}
+        </>
+      )}
 
-          {todo.length > 0 && (
-            <>
-              <p className="small fw-semibold text-muted mb-2 text-uppercase" style={{ letterSpacing: '0.05em' }}>
-                {t('checklist.todoSection')}
-              </p>
-              {todo.map(item => <ChecklistItem key={item.id} item={item} onRefresh={refreshChecklist} />)}
-            </>
-          )}
-
-          {done.length > 0 && (
-            <>
-              <p className="small fw-semibold text-muted mb-2 mt-4 text-uppercase" style={{ letterSpacing: '0.05em' }}>
-                {t('checklist.completedSection')}
-              </p>
-              {done.map(item => <ChecklistItem key={item.id} item={item} onRefresh={refreshChecklist} />)}
-            </>
-          )}
+      {!loading && done.length > 0 && (
+        <>
+          <p className="small fw-semibold text-muted mb-2 mt-4 text-uppercase" style={{ letterSpacing: '0.05em' }}>
+            {t('checklist.completedSection')}
+          </p>
+          {done.map(item => <ChecklistItem key={item.id} item={item} onRefresh={refreshChecklist} />)}
         </>
       )}
     </div>

@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Modal, Form, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import PollCard from './PollCard'
 import { getPollsByTrip, createPoll } from '../../services/tripsService'
+import { useAsync } from '../../common/useAsync'
 import { useService } from '../../common/useService'
+import { PollCardSkeleton } from '../../common/Skeletons'
+import EmptyState from '../../common/EmptyState'
 
 const POLL_TYPES = ['destination', 'transport', 'general']
 
@@ -13,20 +16,10 @@ export default function VotingPage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const call = useService()
-  const [polls, setPolls] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { data: polls, loading, refresh: refreshPolls } = useAsync(() => getPollsByTrip(tripId), [tripId])
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState({ question: '', type: 'destination', options: ['', ''] })
   const [submitting, setSubmitting] = useState(false)
-
-  async function refreshPolls() {
-    setLoading(true)
-    const data = await call(getPollsByTrip, tripId)
-    if (data) setPolls(data)
-    setLoading(false)
-  }
-
-  useEffect(() => { refreshPolls() }, [tripId])
 
   function handleChange(e) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -58,14 +51,13 @@ export default function VotingPage() {
     const data = await call(createPoll, tripId, { question: form.question, type: form.type, options: clean })
     setSubmitting(false)
     if (!data) return
-    const refreshed = await call(getPollsByTrip, tripId)
-    if (refreshed) setPolls(refreshed)
+    refreshPolls()
     setForm({ question: '', type: 'destination', options: ['', ''] })
     setShowModal(false)
   }
 
-  const open = polls.filter(p => !p.closed)
-  const closed = polls.filter(p => p.closed)
+  const open = polls?.filter(p => !p.closed) ?? []
+  const closed = polls?.filter(p => p.closed) ?? []
 
   return (
     <div className="page-container pb-nav">
@@ -79,28 +71,15 @@ export default function VotingPage() {
         </button>
       </div>
 
-      {loading ? (
-        [0, 1, 2].map(i => (
-          <div key={i} className="card border-0 shadow-sm mb-3 placeholder-glow">
-            <div className="card-body p-3">
-              <span className="placeholder col-3 d-block mb-2 rounded" />
-              <span className="placeholder col-7 d-block mb-3 rounded" />
-              <span className="placeholder col-12 d-block mb-2 rounded" style={{ height: 32 }} />
-              <span className="placeholder col-12 d-block rounded" style={{ height: 32 }} />
-            </div>
-          </div>
-        ))
-      ) : null}
+      {loading && <PollCardSkeleton count={3} />}
 
-      {!loading && open.length === 0 && closed.length === 0 && (
-        <div className="empty-state text-center py-5">
-          <div className="empty-state-emoji">🗳️</div>
-          <h5 className="fw-bold mt-3">{t('voting.empty.title')}</h5>
-          <p className="text-muted small">{t('voting.empty.subtitle')}</p>
-          <button className="btn btn-primary-custom" onClick={() => setShowModal(true)}>
-            {t('voting.empty.cta')}
-          </button>
-        </div>
+      {!loading && !polls?.length && (
+        <EmptyState
+          icon="🗳️"
+          title={t('voting.empty.title')}
+          subtitle={t('voting.empty.subtitle')}
+          action={<button className="btn btn-primary-custom" onClick={() => setShowModal(true)}>{t('voting.empty.cta')}</button>}
+        />
       )}
 
       {!loading && open.length > 0 && (
