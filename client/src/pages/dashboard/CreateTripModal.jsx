@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Modal, Form, Button, Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useTrips } from '../../context/TripContext';
 import { createTrip } from '../../services/tripsService';
 import PubSub from '../../common/PubSub';
 
