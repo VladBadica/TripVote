@@ -1,9 +1,8 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next'
-import { mockMembers } from '../mock/mockData'
 import { moment } from '../i18n'
-import { getTripById, getPollsByTrip, getChecklistByTrip } from '../services/tripsService'
+import { getTripById, getPollsByTrip, getChecklistByTrip, getTripMembers } from '../services/tripsService'
 import { useService } from '../common/useService'
 
 export default function TripDetailPage() {
@@ -14,16 +13,19 @@ export default function TripDetailPage() {
   const [trip, setTrip] = useState(null);
   const [polls, setPolls] = useState([]);
   const [checklist, setChecklist] = useState([]);
+  const [members, setMembers] = useState([]);
 
   const getTripData = useCallback(async (tripId) => {
-    const [tripData, pollsData, checklistData] = await Promise.all([
+    const [tripData, pollsData, checklistData, membersData] = await Promise.all([
       call(getTripById, tripId),
       call(getPollsByTrip, tripId),
       call(getChecklistByTrip, tripId),
+      call(getTripMembers, tripId),
     ])
     if (tripData) setTrip(tripData)
     if (pollsData) setPolls(pollsData)
     if (checklistData) setChecklist(checklistData)
+    if (membersData) setMembers(membersData)
   }, []);
 
   useEffect(function initTripData() {
@@ -112,11 +114,11 @@ export default function TripDetailPage() {
         <div className="card-body p-3">
           <p className="fw-semibold small mb-3">{t('tripDetail.membersSection')}</p>
           <div className="d-flex flex-column gap-2">
-            {mockMembers.map(m => (
+            {members.map(m => (
               <div key={m.id} className="d-flex align-items-center gap-3">
                 <div className="member-avatar">{m.avatar}</div>
                 <div>
-                  <p className="mb-0 small fw-medium">{m.name}</p>
+                  <p className="mb-0 small fw-medium">{m.name ?? m.id}</p>
                   <p className="mb-0 text-muted" style={{ fontSize: '0.72rem' }}>{m.role}</p>
                 </div>
               </div>

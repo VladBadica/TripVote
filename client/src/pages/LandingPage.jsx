@@ -25,8 +25,8 @@ export default function LandingPage() {
             <Link to="/dashboard" className="btn btn-primary-custom btn-sm">{t('nav.myTrips')}</Link>
           ) : (
             <>
-              <Link to="/login" className="btn btn-outline-secondary btn-sm">{t('nav.logIn')}</Link>
-              <Link to="/register" className="btn btn-primary-custom btn-sm">{t('nav.signUpFree')}</Link>
+              <Link to="/login" className="btn btn-outline-secondary btn-sm d-none d-sm-inline-flex">{t('nav.logIn')}</Link>
+              <Link to="/register" className="btn btn-primary-custom btn-sm">{t('nav.signUp')}</Link>
             </>
           )}
         </div>

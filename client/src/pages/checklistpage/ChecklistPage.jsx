@@ -5,8 +5,8 @@ import ChecklistItem from './ChecklistItem'
 import { getChecklistByTrip, addChecklistItem } from '../../services/tripsService'
 import { useAsync } from '../../common/useAsync'
 import { useService } from '../../common/useService'
-import { ChecklistSkeleton } from '../../common/Skeletons'
-import EmptyState from '../../common/EmptyState'
+import { ChecklistSkeleton } from '../../components/Skeletons'
+import EmptyState from '../../components/EmptyState'
 
 export default function ChecklistPage() {
   const { tripId } = useParams()

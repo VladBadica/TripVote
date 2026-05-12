@@ -279,3 +279,33 @@ create policy "checklist: members can update"
 
 create policy "checklist: creator can delete"
   on checklist_items for delete using (created_by = auth.uid());
+
+
+-- =============================================================================
+-- RPCs
+-- =============================================================================
+
+-- Atomically finds a trip by invite code and inserts the caller as a member.
+-- Runs as security definer to bypass RLS on trips (user isn't a member yet).
+create or replace function join_trip_by_invite_code(p_invite_code text)
+returns json language plpgsql security definer
+set search_path = public
+as $$
+declare
+  v_trip trips%rowtype;
+begin
+  select * into v_trip
+  from trips
+  where invite_code = upper(p_invite_code);
+
+  if not found then
+    raise exception 'Invalid invite code';
+  end if;
+
+  insert into trip_members (trip_id, user_id, role)
+  values (v_trip.id, auth.uid(), 'member')
+  on conflict (trip_id, user_id) do nothing;
+
+  return row_to_json(v_trip);
+end;
+$$;

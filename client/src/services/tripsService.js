@@ -108,34 +108,39 @@ export async function updateTrip(tripId, updates) {
 // ---------- members ----------
 
 export async function getTripMembers(tripId) {
-  const { data, error } = await supabase
+  const { data: members, error } = await supabase
     .from('trip_members')
-    .select('user_id, role, joined_at, profiles(full_name, avatar_emoji)')
+    .select('user_id, role, joined_at')
     .eq('trip_id', tripId)
 
   if (error) return { data: null, error }
-  return { data: normalizeMembers(data), error: null }
+
+  const { data: profiles, error: profilesError } = await supabase
+    .from('profiles')
+    .select('id, full_name, avatar_emoji')
+    .in('id', members.map(m => m.user_id))
+
+  if (profilesError) return { data: null, error: profilesError }
+
+  const profileMap = Object.fromEntries(profiles.map(p => [p.id, p]))
+
+  return {
+    data: members.map(m => ({
+      id: m.user_id,
+      name: profileMap[m.user_id]?.full_name ?? null,
+      avatar: profileMap[m.user_id]?.avatar_emoji ?? '🧑',
+      role: m.role,
+      joinedAt: m.joined_at,
+    })),
+    error: null,
+  }
 }
 
 export async function joinTripByInviteCode(inviteCode) {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { data: null, error: new Error('Not authenticated') }
+  const { data, error } = await supabase
+    .rpc('join_trip_by_invite_code', { p_invite_code: inviteCode.toUpperCase() })
 
-  const { data: trip, error: findError } = await supabase
-    .from('trips')
-    .select('*')
-    .eq('invite_code', inviteCode.toUpperCase())
-    .single()
-
-  if (findError) return { data: null, error: findError }
-
-  const { error: joinError } = await supabase
-    .from('trip_members')
-    .upsert({ trip_id: trip.id, user_id: user.id, role: 'member' }, { onConflict: 'trip_id,user_id' })
-
-  if (joinError) return { data: null, error: joinError }
-
-  return { data: normalize(trip), error: null }
+  return { data: normalize(data), error }
 }
 
 // ---------- polls ----------

@@ -6,8 +6,8 @@ import PollCard from './PollCard'
 import { getPollsByTrip, createPoll } from '../../services/tripsService'
 import { useAsync } from '../../common/useAsync'
 import { useService } from '../../common/useService'
-import { PollCardSkeleton } from '../../common/Skeletons'
-import EmptyState from '../../common/EmptyState'
+import { PollCardSkeleton } from '../../components/Skeletons'
+import EmptyState from '../../components/EmptyState'
 
 const POLL_TYPES = ['destination', 'transport', 'general']
 

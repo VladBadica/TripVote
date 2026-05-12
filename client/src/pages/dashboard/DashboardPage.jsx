@@ -3,24 +3,30 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import TripCard from './TripCard';
 import CreateTripModal from './CreateTripModal';
-import { getMyTrips } from '../../services/tripsService';
+import { getMyTrips, joinTripByInviteCode } from '../../services/tripsService';
 import { useAsync } from '../../common/useAsync';
-import { TripCardSkeleton } from '../../common/Skeletons';
-import EmptyState from '../../common/EmptyState';
+import { useService } from '../../common/useService';
+import { TripCardSkeleton } from '../../components/Skeletons';
+import EmptyState from '../../components/EmptyState';
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const { t } = useTranslation();
-  const { data: trips, loading } = useAsync(() => getMyTrips());
+  const { data: trips, loading, refresh } = useAsync(() => getMyTrips());
+  const call = useService();
   const [showModal, setShowModal] = useState(false);
   const [joinCode, setJoinCode] = useState('');
+  const [joining, setJoining] = useState(false);
 
   const firstName = user?.user_metadata?.full_name?.split(' ')[0] ?? 'Traveller'
 
-  const handleJoin = (e) => {
+  const handleJoin = async (e) => {
     e.preventDefault()
-    alert(t('dashboard.joiningAlert', { code: joinCode.toUpperCase() }))
-    setJoinCode('')
+    if (!joinCode.trim()) return
+    setJoining(true)
+    const data = await call(joinTripByInviteCode, joinCode.trim())
+    setJoining(false)
+    if (data) { setJoinCode(''); refresh() }
   }
 
   return (
@@ -59,8 +65,10 @@ export default function DashboardPage() {
               onChange={e => setJoinCode(e.target.value)}
               maxLength={10}
             />
-            <button type="submit" className="btn btn-outline-primary btn-sm flex-shrink-0" disabled={!joinCode.trim()}>
-              {t('dashboard.join')}
+            <button type="submit" className="btn btn-outline-primary btn-sm flex-shrink-0" disabled={!joinCode.trim() || joining}>
+              {joining
+                ? <span className="spinner-border spinner-border-sm" role="status" />
+                : t('dashboard.join')}
             </button>
           </form>
         </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PubSub from "../PubSub";
+import PubSub from "../../common/PubSub";
 import { Button, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
