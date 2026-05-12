@@ -33,7 +33,8 @@ create table profiles (
 
 -- Auto-create a profile row whenever a user signs up
 create or replace function handle_new_user()
-returns trigger language plpgsql security definer as $$
+returns trigger language plpgsql security definer
+set search_path = public as $$
 begin
   insert into profiles (id, full_name)
   values (
@@ -189,6 +190,9 @@ $$;
 -- profiles ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 create policy "profiles: read any"
   on profiles for select using (true);
+
+create policy "profiles: insert own"
+  on profiles for insert with check (true);
 
 create policy "profiles: update own"
   on profiles for update using (id = auth.uid());
