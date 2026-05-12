@@ -7,6 +7,7 @@
     "logIn": "Log in",
     "signUp": "Sign up",
     "signOut": "Sign out",
+    "editProfile": "Edit profile",
     "trips": "Trips",
     "overview": "Overview",
     "votes": "Votes",
@@ -153,6 +154,35 @@
     "markIncomplete": "Mark incomplete",
     "markComplete": "Mark complete",
     "deleteItem": "Delete item"
+  },
+  "profile": {
+    "title": "Edit profile",
+    "back": "← Back",
+    "pickAvatar": "Pick an avatar",
+    "firstName": "First name",
+    "firstNamePlaceholder": "Alex",
+    "lastName": "Last name",
+    "lastNamePlaceholder": "Johnson",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "saved": "Profile updated!",
+    "validation": {
+      "firstNameRequired": "First name is required."
+    },
+    "password": {
+      "title": "Change password",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "Min. 6 characters",
+      "confirmPassword": "Confirm new password",
+      "confirmPasswordPlaceholder": "Repeat new password",
+      "save": "Change password",
+      "saving": "Saving…",
+      "saved": "Password updated!",
+      "validation": {
+        "tooShort": "Password must be at least 6 characters.",
+        "mismatch": "Passwords don't match."
+      }
+    }
   },
   "createTrip": {
     "title": "New Trip ✈️",

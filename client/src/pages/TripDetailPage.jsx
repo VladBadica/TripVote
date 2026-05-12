@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { moment } from '../i18n'
 import { getTripById, getPollsByTrip, getChecklistByTrip, getTripMembers } from '../services/tripsService'
 import { useService } from '../common/useService'
+import { TripDetailSkeleton } from '../components/Skeletons'
 
 export default function TripDetailPage() {
   const { tripId } = useParams()
@@ -14,6 +15,7 @@ export default function TripDetailPage() {
   const [polls, setPolls] = useState([]);
   const [checklist, setChecklist] = useState([]);
   const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getTripData = useCallback(async (tripId) => {
     const [tripData, pollsData, checklistData, membersData] = await Promise.all([
@@ -26,6 +28,7 @@ export default function TripDetailPage() {
     if (pollsData) setPolls(pollsData)
     if (checklistData) setChecklist(checklistData)
     if (membersData) setMembers(membersData)
+    setLoading(false)
   }, []);
 
   useEffect(function initTripData() {
@@ -33,6 +36,8 @@ export default function TripDetailPage() {
       getTripData(tripId);
     }
   }, [tripId]);
+
+  if (loading) return <TripDetailSkeleton />
 
   if (!trip) {
     return (

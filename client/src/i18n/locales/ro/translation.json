@@ -8,6 +8,7 @@
     "logIn": "Autentificare",
     "signUp": "Înregistrare",
     "signOut": "Deconectare",
+    "editProfile": "Editează profilul",
     "trips": "Călătorii",
     "overview": "Prezentare",
     "votes": "Voturi",
@@ -156,6 +157,35 @@
     "markIncomplete": "Marchează ca nefinalizat",
     "markComplete": "Marchează ca finalizat",
     "deleteItem": "Șterge elementul"
+  },
+  "profile": {
+    "title": "Editează profilul",
+    "back": "← Înapoi",
+    "pickAvatar": "Alege un avatar",
+    "firstName": "Prenume",
+    "firstNamePlaceholder": "Alexandru",
+    "lastName": "Nume",
+    "lastNamePlaceholder": "Ionescu",
+    "save": "Salvează modificările",
+    "saving": "Se salvează...",
+    "saved": "Profil actualizat!",
+    "validation": {
+      "firstNameRequired": "Prenumele este obligatoriu."
+    },
+    "password": {
+      "title": "Schimbă parola",
+      "newPassword": "Parolă nouă",
+      "newPasswordPlaceholder": "Min. 6 caractere",
+      "confirmPassword": "Confirmă parola nouă",
+      "confirmPasswordPlaceholder": "Repetă parola nouă",
+      "save": "Schimbă parola",
+      "saving": "Se salvează...",
+      "saved": "Parolă actualizată!",
+      "validation": {
+        "tooShort": "Parola trebuie să aibă cel puțin 6 caractere.",
+        "mismatch": "Parolele nu se potrivesc."
+      }
+    }
   },
   "createTrip": {
     "title": "Excursie nouă ✈️",

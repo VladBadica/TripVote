@@ -99,6 +99,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.avatar-circle-lg {
+    width: 72px;
+    height: 72px;
+    font-size: 2rem;
+    font-weight: 400;
+  }
 }
 
 // ── Bottom nav ───────────────────────────────────────────────────────────────
@@ -435,6 +442,10 @@ body {
 
 .modal-header .btn-close:focus {
   box-shadow: none;
+}
+
+.alert.small .btn-close {
+  padding: 1.25rem;
 }
 
 .badge {

@@ -15,6 +15,7 @@ export default function TopNavbar() {
   }
 
   const displayName = user?.user_metadata?.full_name ?? user?.email ?? 'Traveller'
+  const avatarEmoji = user?.user_metadata?.avatar_emoji
   const initials = displayName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
 
   return (
@@ -27,11 +28,16 @@ export default function TopNavbar() {
 
         <Dropdown align="end">
           <Dropdown.Toggle as="button" className="avatar-btn border-0 bg-transparent p-0 d-flex align-items-center">
-            <div className="avatar-circle">{initials}</div>
+            <div className="avatar-circle" style={avatarEmoji ? { fontSize: '1.3rem' } : {}}>
+              {avatarEmoji ?? initials}
+            </div>
           </Dropdown.Toggle>
           <Dropdown.Menu className="shadow border-0 mt-2">
             <Dropdown.Header className="fw-semibold">{displayName}</Dropdown.Header>
             <Dropdown.Divider />
+            <Dropdown.Item as={Link} to="/profile">
+              {t('nav.editProfile')}
+            </Dropdown.Item>
             <Dropdown.Item onClick={handleLogout} className="text-danger">
               {t('nav.signOut')}
             </Dropdown.Item>
