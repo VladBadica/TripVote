@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "netlify:login": "netlify login",
+    "deploy": "netlify deploy --prod --site=8ef73b10-7698-4a64-a113-0355e0e1662c",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
