@@ -159,12 +159,20 @@ export async function getPollsByTrip(tripId) {
 
   if (error) return { data: null, error }
 
+  const creatorIds = [...new Set(data.map(p => p.created_by))]
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('id, full_name')
+    .in('id', creatorIds)
+  const profileMap = Object.fromEntries((profiles ?? []).map(p => [p.id, p]))
+
   const normalized = data.map((p) => ({
     id: p.id,
     tripId: p.trip_id,
     type: p.type,
     question: p.question,
     createdBy: p.created_by,
+    creatorName: profileMap[p.created_by]?.full_name ?? null,
     createdAt: p.created_at,
     closed: p.closed,
     options: (p.poll_options ?? [])

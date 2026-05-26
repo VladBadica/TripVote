@@ -63,7 +63,7 @@ export default function PollCard({ poll, onVote }) {
         </div>
 
         <p className="text-muted small mt-3 mb-0">
-          {t('pollCard.by')} {poll.createdBy} · {moment(poll.createdAt).format('D MMM')} · {t('pollCard.totalVotes', { count: totalVotes })}
+          {t('pollCard.by')} {poll.creatorName ?? poll.createdBy} · {moment(poll.createdAt).format('D MMM')} · {t('pollCard.totalVotes', { count: totalVotes })}
         </p>
       </div>
     </div>
